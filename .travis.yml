@@ -1,0 +1,17 @@
+language: android
+jdk: oraclejdk8
+dist: trusty
+
+env:
+  global:
+
+android:
+  components:
+
+
+  licenses:
+
+before_install:
+
+
+before_script:
