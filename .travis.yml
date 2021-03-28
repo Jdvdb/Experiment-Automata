@@ -9,6 +9,7 @@ env:
   - ANDROID_ABI=armeabi-v7a
 android:
   components:
+<<<<<<< HEAD
   - build-tools-26.0.1
   - build-tools-24.0.1
   - build-tools-30.0.3
@@ -49,3 +50,16 @@ before_install:
 
 script:
 - ./gradlew build connectedCheck --stacktrace
+=======
+   - tools
+   - platform-tools
+   - build-tools-30.0.3
+   - android-30
+
+before_install:
+- chmod +x gradlew
+script:
+ - ./gradlew build connectedCheck 
+
+before_script:
+>>>>>>> attempt 3
