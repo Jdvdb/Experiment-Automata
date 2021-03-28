@@ -7,11 +7,14 @@ env:
 
 android:
   components:
-
-
-  licenses:
+   - tools
+   - platform-tools
+   - build-tools-30.0.3
+   - android-30
 
 before_install:
-
+- chmod +x gradlew
+script:
+ - ./gradlew build connectedCheck 
 
 before_script:
