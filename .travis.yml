@@ -12,9 +12,10 @@ android:
    - build-tools-30.0.3
    - android-30
 
+   licenses:
+
 before_install:
 - chmod +x gradlew
-script:
- - ./gradlew build connectedCheck 
+- yes | sdkmanager "platforms:android-30"
 
 before_script:
