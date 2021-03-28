@@ -36,7 +36,8 @@ licenses:
 
 before_install:
   # Accept sdk licenses
-  - yes | sdkmanager "platforms;android-29"
+  - chmod +x gradlew
+  - yes | sdkmanager "platforms;android-30"
 
   # Get gradle
   - chmod +x gradlew
@@ -56,3 +57,6 @@ before_install:
   
   # The app will now automatically be installed and tested via
   # the command `gradle connectedCheck`
+
+script:
+- chmod +x ./gradlew
