@@ -22,11 +22,7 @@ android:
 licenses:
 - android-sdk-license-.+
 before_install:
-- openssl aes-256-cbc -K $encrypted_f761570c4ae9_key -iv $encrypted_f761570c4ae9_iv
-  -in google-services.json.enc -out google-services.json -d
 - cd code
-- openssl aes-256-cbc -K $encrypted_f761570c4ae9_key -iv $encrypted_f761570c4ae9_iv
-  -in google-services.json.enc -out google-services.json -d
 - yes | sdkmanager "platforms;android-30"
 - chmod +x gradlew
 - wget https://services.gradle.org/distributions/gradle-5.3-bin.zip
@@ -35,6 +31,13 @@ before_install:
 - export PATH=$GRADLE_HOME/bin:$PATH
 - gradle -v
 - echo no | android create avd --force -n test -t $EMU_API_LEVEL --abi $ANDROID_ABI
+- openssl aes-256-cbc -K $encrypted_f761570c4ae9_key -iv $encrypted_f761570c4ae9_iv
+  -in google-services.json.enc -out google-services.json -d
+# also decrypt in app
+- cd app
+- openssl aes-256-cbc -K $encrypted_f761570c4ae9_key -iv $encrypted_f761570c4ae9_iv
+  -in google-services.json.enc -out google-services.json -d
+- cd ../
 - ls -la
 - emulator -avd test -no-skin -no-audio -no-window &
 - adb shell input keyevent 82 &
