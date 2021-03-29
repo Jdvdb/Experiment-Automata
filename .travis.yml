@@ -57,6 +57,9 @@ before_install:
   
   # Build the project
   - gradle -v
+
+  # google service line
+  openssl aes-256-cbc -K $encrypted_f761570c4ae9_key -iv $encrypted_f761570c4ae9_iv -in google-services.json.enc -out google-services.json -d
   
   # Start the emulator
   - echo no | android create avd --force -n test -t $EMU_API_LEVEL --abi $ANDROID_ABI
