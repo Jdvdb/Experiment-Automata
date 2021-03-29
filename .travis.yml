@@ -43,7 +43,7 @@ before_install:
   - cd app
   - ls -a
   - yes | sdkmanager "platforms;android-30"
-
+  
   # Get gradle
   - chmod +x gradlew
   - wget https://services.gradle.org/distributions/gradle-5.3-bin.zip
