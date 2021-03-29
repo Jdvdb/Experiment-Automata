@@ -1,36 +1,68 @@
 language: android
 jdk: oraclejdk8
+
 env:
   global:
-  - ANDROID_TARGET=android-30
-  - EMU_API_LEVEL=android-24
-  - ANDROID_TAG=google_apis
-  - ANDROID_ABI=armeabi-v7a
-  - secure: eP58v0VJIpaWv8Cy9BOUfJZhp0LGx0QShQjFSGZ+p4tu/FK6RloUh7FgasivJ2S5llT2yXWN4maP6OPY+k0//2Hs1Fk7ueej5Xr0K1m6JAGf7Me8aABJVqxXyUWvgXXoV9L0UR8sYLRcnq1TfeXFxEJOvffVcyYFm2csFzdU6uLzN4WmbciCnSlSl6gOCYg/RFNJHtfV3Rg0bl60UchHCBxXCll78qlYo7lDIH7SOEYbFX7kOmdU6kBSqhSM9Ic+FUuVwGl0rX0GIZ7lrLlaSskc2H1g9KknDm+cZE1ZKjyAZfYgLtH75OEKm90NSGR3AwGF7TRiSi9A2HtYhzAOn8UZ8SceKrhluccL7P9McuhNSj0v96jqEulhFo4Olo0mgt39EMB2wpFTJPythnd4EW9nviJuwImTWp3WMzfhr950p+tJlMdl+kO7P5xSVgrTA/gx2MvYzGnKQj9QMfUkxBH5h6rfWVn2eSJYK3656SdC5ZQsCz0uHwSMIhNwoVS3yK1GPpWXRwMnKvvfuLd84SToAJvf9XLgGa7BmB6anQL+JvWXrSgjGGveXmYwidV2kICbG/PVbk9VPskTl51ihjgzxLIVmCf7JklSRfhhewPlcv5sowIToEn+co9nEEksDMsONqq/7N+UA+vkvwZqm68OvWdBN9ufytmmS2O3Pms=
+    - ANDROID_TARGET=android-30
+    - EMU_API_LEVEL=android-24
+    - ANDROID_TAG=google_apis
+    - ANDROID_ABI=armeabi-v7a
+
 android:
   components:
-  - tools
-  - tools
-  - platform-tools
-  - build-tools-30.0.3
-  - build-tools-23.0.1
-  - "$ANDROID_TARGET"
-  - "$EMU_API_LEVEL"
-  - extra-android-support
-  - extra-google-m2repository
-  - extra-android-m2repository
-  - sys-img-$ANDROID_ABI-android-24
+    # Uncomment the lines below if you want to
+    # use the latest revision of Android SDK Tools
+    - tools
+    - tools
+    - platform-tools
+
+    # The BuildTools version used by your project
+    - build-tools-30.0.3
+    # Lower version for emulator
+    - build-tools-23.0.1
+
+    # The SDK version used to compile your project
+    # TODO: why is this here explicitly in addition to $ANDROID_TARGET below
+    - $ANDROID_TARGET
+
+    # The SDK for the emulator
+    - $EMU_API_LEVEL
+
+    
+    # Additional components
+    - extra-android-support
+    - extra-google-m2repository
+    - extra-android-m2repository
+
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests.
+    # The line should look like this after interpolation:
+    # - sys-img-armeabi-v7a-android-22
+    - sys-img-$ANDROID_ABI-android-24
+
 licenses:
-- android-sdk-license-.+
+    - 'android-sdk-license-.+'
+
 before_install:
-- cd code
-- yes | sdkmanager "platforms;android-30"
-- chmod +x gradlew
-- wget https://services.gradle.org/distributions/gradle-5.3-bin.zip
-- unzip -qq gradle-5.3-bin.zip
-- export GRADLE_HOME=$PWD/gradle-5.3
-- export PATH=$GRADLE_HOME/bin:$PATH
-- gradle -v
-- echo no | android create avd --force -n test -t $EMU_API_LEVEL --abi $ANDROID_ABI
-- emulator -avd test -no-skin -no-audio -no-window &
-- adb shell input keyevent 82 &
+  # Accept sdk licenses
+  - cd code
+  - yes | sdkmanager "platforms;android-30"
+
+  # Get gradle
+  - chmod +x gradlew
+  - wget https://services.gradle.org/distributions/gradle-5.3-bin.zip
+  - unzip -qq gradle-5.3-bin.zip
+  - export GRADLE_HOME=$PWD/gradle-5.3
+  - export PATH=$GRADLE_HOME/bin:$PATH
+  
+  # Build the project
+  - gradle -v
+  
+  # Start the emulator
+  - echo no | android create avd --force -n test -t $EMU_API_LEVEL --abi $ANDROID_ABI
+  - emulator -avd test -no-skin -no-audio -no-window &
+  # - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  
+  # The app will now automatically be installed and tested via
+  # the command `gradle connectedCheck`
