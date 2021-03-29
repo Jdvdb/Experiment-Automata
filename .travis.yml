@@ -36,12 +36,7 @@ licenses:
 
 before_install:
   # Accept sdk licenses
-  - ls -a
   - cd code
-  - ls -a
-  - chmod +x gradlew
-  - cd app
-  - ls -a
   - yes | sdkmanager "platforms;android-30"
 
   # Get gradle
