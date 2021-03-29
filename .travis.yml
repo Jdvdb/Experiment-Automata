@@ -38,12 +38,12 @@ before_install:
   # Accept sdk licenses
   - ls -a
   - cd code
-  - chmod +x gradlew
   - ls -a
+  - chmod +x gradlew
   - cd app
   - ls -a
   - yes | sdkmanager "platforms;android-30"
-  
+
   # Get gradle
   - chmod +x gradlew
   - wget https://services.gradle.org/distributions/gradle-5.3-bin.zip
