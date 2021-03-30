@@ -19,21 +19,20 @@ android:
 licenses:
 - android-sdk-license-.+
 before_install:
-- yes | sdkmanager "platforms;android-30"
 - cd code
 - chmod +x gradlew
-# - openssl aes-256-cbc -K $encrypted_f761570c4ae9_key -iv $encrypted_f761570c4ae9_iv
-#   -in google-services.json.enc -out google-services.json -d
+- yes | sdkmanager "platforms;android-30"
+# - export GRADLE_HOME=$PWD/gradle-5.3
+# - export PATH=$GRADLE_HOME/bin:$PATH
+# - gradle -v
+- echo no | android create avd --force -n test -t $EMU_API_LEVEL --abi $ANDROID_ABI
+- openssl aes-256-cbc -K $encrypted_f761570c4ae9_key -iv $encrypted_f761570c4ae9_iv
+  -in google-services.json.enc -out google-services.json -d
 # also decrypt in app
 - cd app
 - openssl aes-256-cbc -K $encrypted_f761570c4ae9_key -iv $encrypted_f761570c4ae9_iv
   -in google-services.json.enc -out google-services.json -d
 - cd ../
-- echo no | android create avd --force -n test -t $EMU_API_LEVEL --abi $ANDROID_ABI
-- emulator -avd test -no-audio -no-window&
-
-before_script:
+- emulator -avd test -no-window &
 - android-wait-for-emulator
 - adb shell input keyevent 82 &
-
-script: ./gradlew check connectedCheck --stacktrace
