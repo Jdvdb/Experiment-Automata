@@ -73,7 +73,7 @@ public class BinomialTrialTests {
                 true,
                 true,
                 testUUID);
-
+        solo.unlockScreen();
         getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
