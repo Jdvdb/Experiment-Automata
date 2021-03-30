@@ -38,8 +38,3 @@ before_install:
 - emulator -avd test -no-window &
 - android-wait-for-emulator
 - adb shell input keyevent 82 &
-
-script:
-  ./gradlew :projectcore:checkstyle
-  ./gradlew clean build -x lint
-  ./gradlew :project:connectedAndroidTest
