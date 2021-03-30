@@ -12,6 +12,7 @@ package com.example.experiment_automata;
  */
 
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ import androidx.test.rule.ActivityTestRule;
 
 import java.util.UUID;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -59,7 +61,7 @@ public class BinomialTrialTests {
 
     @Before
     public void setup() {
-        solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
+        solo = new Solo(getInstrumentation(), rule.getActivity());
         currentTestingActivity = (NavigationActivity) solo.getCurrentActivity();
         //Finding the buttons we need to press
         addExperimentButton = currentTestingActivity.findViewById(R.id.fab_button);
@@ -71,6 +73,13 @@ public class BinomialTrialTests {
                 true,
                 true,
                 testUUID);
+
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                currentTestingActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+            }
+        });
 
     }
 
