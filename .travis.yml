@@ -19,8 +19,8 @@ android:
 licenses:
 - android-sdk-license-.+
 before_install:
-- chmod +x gradlew
 - cd code
+- chmod +x gradlew
 # - yes | sdkmanager "platforms;android-30"
 # - export GRADLE_HOME=$PWD/gradle-5.3
 # - export PATH=$GRADLE_HOME/bin:$PATH
