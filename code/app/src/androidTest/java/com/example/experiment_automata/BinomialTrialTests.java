@@ -81,6 +81,13 @@ public class BinomialTrialTests {
             }
         });
 
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                currentTestingActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+            }
+        });
+
     }
 
     private void makeExperiment(String des) {
