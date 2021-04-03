@@ -232,84 +232,84 @@ public class ExperimentUserStoriesTests
      * user had made.
      * per(us.01.02.01)
      */
-    @Test
-    public void testingUnpublishedExperiment()
-    {
-        makeExperiment("GUI Test Experiment");
-
-        //Clicking on publish button
-        publishButton = solo.getView(R.id.publishedCheckbox);
-        solo.clickOnView(publishButton);
-
-        solo.clickOnActionBarHomeButton();
-        solo.clickOnText("Published Experiments");
-
-
-        solo.clickOnActionBarHomeButton();
-        solo.clickOnText("My Experiments");
-        solo.clickOnView(publishButton);
-
-
-        solo.clickOnActionBarHomeButton();
-        solo.clickOnText("Published Experiments");
-
-        assertEquals("Failed un-publish functionality still displays unpublished experiment",
-                false,
-                solo.searchText("GUI Test Experiment"));
-    }
+//    @Test
+//    public void testingUnpublishedExperiment()
+//    {
+//        makeExperiment("GUI Test Experiment");
+//
+//        //Clicking on publish button
+//        publishButton = solo.getView(R.id.publishedCheckbox);
+//        solo.clickOnView(publishButton);
+//
+//        solo.clickOnActionBarHomeButton();
+//        solo.clickOnText("Published Experiments");
+//
+//
+//        solo.clickOnActionBarHomeButton();
+//        solo.clickOnText("My Experiments");
+//        solo.clickOnView(publishButton);
+//
+//
+//        solo.clickOnActionBarHomeButton();
+//        solo.clickOnText("Published Experiments");
+//
+//        assertEquals("Failed un-publish functionality still displays unpublished experiment",
+//                false,
+//                solo.searchText("GUI Test Experiment"));
+//    }
 
     /**
      * Testing if we can mark an experiment as inactive so that we can
      * still see the results of that experiment but not add anymore data.
      * As per (us.01.03.01)
      */
-    @Test
-    public void testingIfWeCanEndAnExperiment()
-    {
-        View editButton = null;
-        makeExperiment("GUI Test Experiment");
-
-        //Clicking on experiment
-        solo.clickOnText("GUI Test Experiment");
-        editButton = solo.getView(R.id.nav_fragment_experiment_detail_view_edit_button);
-        assertNotEquals("Could not find edit button please check view", null, editButton);
-        solo.clickOnView(editButton);
-        solo.clickOnView(acceptNewResults);
-        solo.clickOnText("Ok");
-
-        solo.clickOnActionBarHomeButton();
-
-        assertEquals("Failed to disable experiment: Please make sure bools are checked",
-                true,
-                solo.searchText("Inactive"));
-    }
+//    @Test
+//    public void testingIfWeCanEndAnExperiment()
+//    {
+//        View editButton = null;
+//        makeExperiment("GUI Test Experiment");
+//
+//        //Clicking on experiment
+//        solo.clickOnText("GUI Test Experiment");
+//        editButton = solo.getView(R.id.nav_fragment_experiment_detail_view_edit_button);
+//        assertNotEquals("Could not find edit button please check view", null, editButton);
+//        solo.clickOnView(editButton);
+//        solo.clickOnView(acceptNewResults);
+//        solo.clickOnText("Ok");
+//
+//        solo.clickOnActionBarHomeButton();
+//
+//        assertEquals("Failed to disable experiment: Please make sure bools are checked",
+//                true,
+//                solo.searchText("Inactive"));
+//    }
 
     /**
      * Testing if we can add trials to an experiment
      * as per(us.01.05.01)
      */
-    @Test
-    public void testingAddingTrials()
-    {
-        Experiment current = null;
-        makeExperiment("GUI Test Experiment");
-        solo.sleep(2000);
-        if(currentTestingActivity.experimentManager.getAllExperiments().size() > 0) {
-            current = currentTestingActivity.experimentManager.getAllExperiments().get(0);
-
-            int trialSizeBefore = current.getSize();
-            solo.clickOnText(current.getDescription());
-            solo.clickOnView(addExperimentButton);
-            solo.clickOnView(addExperimentButton);
-            solo.clickOnActionBarHomeButton();
-            solo.sleep(2000);
-            int trialSizeAfter = current.getSize();
-
-            assertEquals("Trials not added", true, trialSizeAfter > trialSizeBefore);
-        }
-        else
-            fail("Should never happen: if it does it's error with robotium");
-    }
+//    @Test
+//    public void testingAddingTrials()
+//    {
+//        Experiment current = null;
+//        makeExperiment("GUI Test Experiment");
+//        solo.sleep(2000);
+//        if(currentTestingActivity.experimentManager.getAllExperiments().size() > 0) {
+//            current = currentTestingActivity.experimentManager.getAllExperiments().get(0);
+//
+//            int trialSizeBefore = current.getSize();
+//            solo.clickOnText(current.getDescription());
+//            solo.clickOnView(addExperimentButton);
+//            solo.clickOnView(addExperimentButton);
+//            solo.clickOnActionBarHomeButton();
+//            solo.sleep(2000);
+//            int trialSizeAfter = current.getSize();
+//
+//            assertEquals("Trials not added", true, trialSizeAfter > trialSizeBefore);
+//        }
+//        else
+//            fail("Should never happen: if it does it's error with robotium");
+//    }
 
     /**
      * Testing if we can navigate to an experimenter's profile from the trial result
