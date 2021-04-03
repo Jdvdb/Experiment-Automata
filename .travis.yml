@@ -2,13 +2,13 @@ language: android
 jdk: oraclejdk8
 env:
   global:
-  - ANDROID_TARGET=android-24
-  - EMU_API_LEVEL=android-24
+  - ANDROID_TARGET=android-30
+  - EMU_API_LEVEL=android-30
   - ANDROID_TAG=google_apis
   - ANDROID_ABI=armeabi-v7a
 android:
   components:
-  - build-tools-24.0.3
+  - build-tools-30.0.3
   # - build-tools-23.0.1
   - "$ANDROID_TARGET"
   - "$EMU_API_LEVEL"
@@ -21,7 +21,7 @@ licenses:
 before_install:
 - cd code
 - chmod +x gradlew
-- yes | sdkmanager "platforms;android-24"
+- yes | sdkmanager "platforms;android-30"
 # - export GRADLE_HOME=$PWD/gradle-5.3
 # - export PATH=$GRADLE_HOME/bin:$PATH
 # - gradle -v
