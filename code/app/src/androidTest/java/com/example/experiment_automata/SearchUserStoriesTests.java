@@ -108,22 +108,22 @@ public class SearchUserStoriesTests
      * Displaying the search results based on some query.
      * Checking for active
      */
-    @Test
-    public void testSearchDisplayingResultsActive()
-    {
-        String testQuery = "CAT";
-        makeExperiment(testQuery);
-        makeExperiment("two");
-        makeExperiment("three");
-        solo.clickOnView(solo.getView(R.id.app_bar_search));
-        solo.enterText(0, testQuery);
-
-        boolean checkOne = solo.searchText(testQuery, 2);
-        boolean statusCheck = solo.searchText("Active");
-        boolean ownerId = solo.searchText("Experiment Owner");
-
-        assertEquals("Not all fields of experiment found", true, checkOne && statusCheck && ownerId);
-    }
+//    @Test
+//    public void testSearchDisplayingResultsActive()
+//    {
+//        String testQuery = "CAT";
+//        makeExperiment(testQuery);
+//        makeExperiment("two");
+//        makeExperiment("three");
+//        solo.clickOnView(solo.getView(R.id.app_bar_search));
+//        solo.enterText(0, testQuery);
+//
+//        boolean checkOne = solo.searchText(testQuery, 2);
+//        boolean statusCheck = solo.searchText("Active");
+//        boolean ownerId = solo.searchText("Experiment Owner");
+//
+//        assertEquals("Not all fields of experiment found", true, checkOne && statusCheck && ownerId);
+//    }
 
     /**
      * test for us.05.02.01

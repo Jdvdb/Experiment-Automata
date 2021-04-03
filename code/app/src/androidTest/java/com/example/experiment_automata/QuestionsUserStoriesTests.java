@@ -174,33 +174,33 @@ public class QuestionsUserStoriesTests {
     /**
      * Testing if the username of the question post links to the user profile.
      */
-    @Test
-    public void testingQuestionLinksToProfile() {
-        View replyButton = null;
-        View questionButton = null;
-
-        solo.clickOnText("GUI Test Experiment");
-        questionButton = solo.getView(R.id.nav_fragment_experiment_detail_view_qa_button);
-        solo.clickOnView(questionButton);
-        solo.clickOnView(addExperimentButton);
-        View questionBox = solo.getView(R.id.frag_add_edit_question_input_box_diolog);
-        solo.enterText((EditText)questionBox,"Test Question");
-        solo.clickOnText("Ok");
-
-        replyButton = solo.getView(R.id.main_question_display_reply_button);
-        solo.clickOnView(replyButton);
-        questionBox = solo.getView(R.id.frag_add_edit_question_input_box_diolog);
-        solo.enterText((EditText)questionBox,"Test reply");
-        solo.clickOnText("Ok");
-
-        // check linking to profile
-        View questionUsername = solo.getView(R.id.main_question_display_user);
-        solo.clickOnView(questionUsername);
-        solo.waitForFragmentById(R.id.profile_screen);
-        assertEquals(Screen.Profile, currentTestingActivity.getCurrentScreen());
-        assertEquals(solo.getString(R.string.profile_contact),
-                ((TextView) solo.getView(R.id.profile_contact)).getText().toString());
-    }
+//    @Test
+//    public void testingQuestionLinksToProfile() {
+//        View replyButton = null;
+//        View questionButton = null;
+//
+//        solo.clickOnText("GUI Test Experiment");
+//        questionButton = solo.getView(R.id.nav_fragment_experiment_detail_view_qa_button);
+//        solo.clickOnView(questionButton);
+//        solo.clickOnView(addExperimentButton);
+//        View questionBox = solo.getView(R.id.frag_add_edit_question_input_box_diolog);
+//        solo.enterText((EditText)questionBox,"Test Question");
+//        solo.clickOnText("Ok");
+//
+//        replyButton = solo.getView(R.id.main_question_display_reply_button);
+//        solo.clickOnView(replyButton);
+//        questionBox = solo.getView(R.id.frag_add_edit_question_input_box_diolog);
+//        solo.enterText((EditText)questionBox,"Test reply");
+//        solo.clickOnText("Ok");
+//
+//        // check linking to profile
+//        View questionUsername = solo.getView(R.id.main_question_display_user);
+//        solo.clickOnView(questionUsername);
+//        solo.waitForFragmentById(R.id.profile_screen);
+//        assertEquals(Screen.Profile, currentTestingActivity.getCurrentScreen());
+//        assertEquals(solo.getString(R.string.profile_contact),
+//                ((TextView) solo.getView(R.id.profile_contact)).getText().toString());
+//    }
 
     /**
      * Testing if the username of the reply post links to the user profile.

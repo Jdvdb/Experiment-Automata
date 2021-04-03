@@ -152,38 +152,38 @@ public class BinomialTrialTests {
      * Testing US 01.09.01 to see if IQR values are displayed correctly.
      * After finish adding some number of trials
      */
-    @Test
-    public void testIntentIQRNumbersAppear() {
-        Double medianTestValue = 1.000;
-        Double meanTestValue = 1.000;
-        String testDes = "Testing Intent";
-        makeExperiment(testDes);
-        solo.clickOnText(testDes);
-        // Adding 4 trial
-        for (int i = 0; i < 4; i++) {
-            addBinomialTrial(true);
-        }
-        String quertile = ((TextView)solo.getView(R.id.quartiles_value)).getText().toString();
-        Double median = new Double(((TextView)solo.getView(R.id.median_value)).getText().toString());
-        Double mean = new Double(((TextView)solo.getView(R.id.mean_value)).getText().toString());
-
-        assertEquals("Mean wrong", meanTestValue, mean, 0.00001);
-        assertEquals("Median wrong", medianTestValue, median, 0.00001);
-        assertNotEquals("Quartile set wrong", null, quertile);
-    }
+//    @Test
+//    public void testIntentIQRNumbersAppear() {
+//        Double medianTestValue = 1.000;
+//        Double meanTestValue = 1.000;
+//        String testDes = "Testing Intent";
+//        makeExperiment(testDes);
+//        solo.clickOnText(testDes);
+//        // Adding 4 trial
+//        for (int i = 0; i < 4; i++) {
+//            addBinomialTrial(true);
+//        }
+//        String quertile = ((TextView)solo.getView(R.id.quartiles_value)).getText().toString();
+//        Double median = new Double(((TextView)solo.getView(R.id.median_value)).getText().toString());
+//        Double mean = new Double(((TextView)solo.getView(R.id.mean_value)).getText().toString());
+//
+//        assertEquals("Mean wrong", meanTestValue, mean, 0.00001);
+//        assertEquals("Median wrong", medianTestValue, median, 0.00001);
+//        assertNotEquals("Quartile set wrong", null, quertile);
+//    }
 
     /**
      * Testing US 01.06.01 check to see if the title shows as we cannot
      * really compare graphs without overcomplicated results
      */
-    @Test
-    public void testIntentChartHistogramDataDisplayed() {
-        String testDes = "Testing Intent";
-        makeExperiment(testDes);
-        solo.clickOnText(testDes);
-        addBinomialTrial(true);
-        assertTrue("Chart data not displayed", solo.searchText("Histogram"));
-    }
+//    @Test
+//    public void testIntentChartHistogramDataDisplayed() {
+//        String testDes = "Testing Intent";
+//        makeExperiment(testDes);
+//        solo.clickOnText(testDes);
+//        addBinomialTrial(true);
+//        assertTrue("Chart data not displayed", solo.searchText("Histogram"));
+//    }
 
     /**
      * Testing US 01.07.01 check to see if the title shows as we cannot
