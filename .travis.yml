@@ -3,13 +3,13 @@ jdk: oraclejdk8
 env:
   global:
   - ANDROID_TARGET=android-30
-  - EMU_API_LEVEL=android-30
+  - EMU_API_LEVEL=android-24
   - ANDROID_TAG=google_apis
   - ANDROID_ABI=armeabi-v7a
 android:
   components:
   - build-tools-30.0.3
-  # - build-tools-23.0.1
+  - build-tools-23.0.1
   - "$ANDROID_TARGET"
   - "$EMU_API_LEVEL"
   - extra-android-support
