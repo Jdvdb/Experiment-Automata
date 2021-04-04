@@ -14,6 +14,8 @@ import com.example.experiment_automata.backend.experiments.Experiment;
 import com.example.experiment_automata.ui.NavigationActivity;
 import com.example.experiment_automata.backend.questions.Question;
 import com.example.experiment_automata.R;
+import com.example.experiment_automata.ui.Screen;
+
 import java.util.ArrayList;
 
 /**
@@ -72,6 +74,7 @@ public class QuestionDisplay extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //((NavigationActivity)getActivity()).questionManager.getQuestionsFromFirestore();
         ((NavigationActivity)getActivity()).setCurrentFragment(this);
         if (getArguments() != null) {
             currentExperiment = (Experiment) getArguments().getSerializable(QUESTION_EXPERIMENT);
@@ -98,6 +101,8 @@ public class QuestionDisplay extends Fragment {
         ((NavigationActivity)getActivity()).setCurrentFragment(this);
 
         try {
+            ((NavigationActivity)getActivity()).questionManager.getQuestionsFromFirestore();
+
             questionsList = ((NavigationActivity) (getActivity()))
                     .questionManager
                     .getExperimentQuestions(currentExperiment.getExperimentId());
@@ -139,4 +144,18 @@ public class QuestionDisplay extends Fragment {
                 .getExperimentQuestions(currentExperiment
                         .getExperimentId()), getActivity()));
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        (((NavigationActivity)getActivity()).findViewById(R.id.fab_button)).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        ((NavigationActivity)(getActivity())).setCurrentScreen(Screen.ExperimentDetails);
+    }
+
 }

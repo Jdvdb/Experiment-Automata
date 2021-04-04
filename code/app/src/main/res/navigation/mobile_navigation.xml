@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_owned_experiments">
+    app:startDestination="@id/nav_profile">
 
     <fragment
         android:id="@+id/nav_owned_experiments"
@@ -82,7 +82,11 @@
         android:id="@+id/nav_profile"
         android:name="com.example.experiment_automata.ui.profile.ProfileFragment"
         android:label="@string/menu_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_nav_profile_to_nav_owned_experiments2"
+            app:destination="@id/nav_owned_experiments" />
+    </fragment>
     <fragment
         android:id="@+id/nav_experiment_details"
         android:name="com.example.experiment_automata.ui.experiments.NavExperimentDetailsFragment"
@@ -92,6 +96,9 @@
 
             android:id="@+id/action_nav_experiment_details_to_questionDisplay"
             app:destination="@id/questionDisplay" />
+        <action
+            android:id="@+id/action_nav_experiment_details_to_map_display_fragment"
+            app:destination="@id/map_display_fragment" />
     </fragment>
     <fragment
         android:id="@+id/questionDisplay"
@@ -139,5 +146,14 @@
         android:name="com.example.experiment_automata.ui.trials.add.AddMeasurementTrialFragment"
         android:label="Add Measurement Trail"
         tools:layout="@layout/fragment_add_measurement_trial" />
+    <fragment
+        android:id="@+id/map_display_fragment"
+        android:name="com.example.experiment_automata.ui.trials.MapDisplay.MapDisplayFragment"
+        android:label="Trial Map Plot"
+        tools:layout="@layout/fragment_map_display_fragment" >
+        <action
+            android:id="@+id/action_map_display_fragment_to_nav_experiment_details"
+            app:destination="@id/nav_experiment_details" />
+    </fragment>
 
 </navigation>

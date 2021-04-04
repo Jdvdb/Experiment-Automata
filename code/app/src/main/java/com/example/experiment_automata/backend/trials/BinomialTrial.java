@@ -12,25 +12,22 @@ import java.util.UUID;
  *
  *      1. None
  */
-public class BinomialTrial extends Trial {
-    private boolean result;
-
+public class BinomialTrial extends Trial<Boolean> {
     public BinomialTrial(UUID collector, boolean result) {
-        super(collector);
-        this.result = result;
+        super(collector, result);
     }
 
     public BinomialTrial(UUID collector, Location location, boolean result) {
-        super(collector, location);
-        this.result = result;
+        super(collector, location, result);
     }
 
     /**
-     *  gets the result of the single binomial trial recorded.
-     * @return
-     *  The result of the trial
+     * get the the type of the current trial
+     *
+     * @return the type of the current trial
      */
-    public boolean getResult() {
-        return result;
+    @Override
+    public String getType() {
+        return "Binomial";
     }
 }

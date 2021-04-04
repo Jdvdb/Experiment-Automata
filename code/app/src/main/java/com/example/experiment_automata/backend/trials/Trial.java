@@ -2,6 +2,7 @@ package com.example.experiment_automata.backend.trials;
 
 import android.location.Location;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -14,25 +15,39 @@ import java.util.UUID;
  *
  *      1. None
  */
-public abstract class Trial {
-    private UUID collector;
+public abstract class Trial<T> implements Serializable {
+    private UUID userId;
+    private UUID trialId;
     private Location location;
     private Date date;
     private boolean ignore;
-//    TODO: uncomment qr line once qr support has been added
-//    private QRcode qr;
+    protected T result;
 
-    public Trial(UUID collector) {
-        this.collector = collector;
+    public Trial(UUID userId, T result) {
+        this.userId = userId;
         this.date = new Date();
         this.ignore = false;
+        this.result = result;
+        this.trialId = UUID.randomUUID();
     }
 
-    public Trial(UUID collector, Location location) {
-        this.collector = collector;
+    public Trial(UUID userId, Location location, T result) {
+        this.userId = userId;
         this.location = location;
         this.date = new Date();
         this.ignore = false;
+        this.result = result;
+        this.trialId = UUID.randomUUID();
+    }
+
+
+    /**
+     * Returns the UUID of the trial
+     * @return
+     *  The UUID of a Trial
+     */
+    public UUID getTrialId() {
+        return trialId;
     }
 
     /**
@@ -40,7 +55,7 @@ public abstract class Trial {
      * @return
      *  The UUID of an Experimenter
      */
-    public UUID getCollector() { return collector; }
+    public UUID getUserId() { return userId; }
 
     /**
      * Returns the date of the trial.
@@ -62,4 +77,49 @@ public abstract class Trial {
      *  whether to ignore
      */
     public boolean isIgnored() { return ignore; }
+
+    /**
+     * Sets the current location of a trial.
+     *
+     * @param newLocation the new location we want to change to.
+     */
+    public void setLocation(Location newLocation)
+    {
+        this.location = newLocation;
+    }
+
+    /**
+     * get the currently set location for this particular trial.
+     * @return
+     *      the currently set location
+     */
+    public Location getLocation()
+    {
+        return location;
+    }
+
+    /**
+     * get the the type of the current trial
+     * @return
+     *  the type of the current trial
+     */
+    public abstract String getType();
+
+    /**
+     *  Gets the result of the single trial recorded.
+     * @return
+     *  The result of the trial
+     */
+    public T getResult() {
+        return result;
+    }
+
+    /**
+     * Set the result of the trial.
+     * @param result
+     *  the result we want to set
+     */
+    public void setResult(T result) {
+        this.result = result;
+    }
 }

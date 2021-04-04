@@ -12,13 +12,31 @@ import java.util.UUID;
  *
  *      1. None
  */
-public class CountTrial extends Trial {
+public class CountTrial extends Trial<Object> {
 
     public CountTrial(UUID collector) {
-        super(collector);
+        super(collector, null);
     }
 
     public CountTrial(UUID collector, Location location) {
-        super(collector, location);
+        super(collector, location, null);
     }
+
+    /**
+     * get the the type of the current trial
+     *
+     * @return the type of the current trial
+     */
+    @Override
+    public String getType() {
+        return "Count Trial";
+    }
+
+    /**
+     * Does not set the result of the trial.
+     * @param result
+     *  result to ignore
+     */
+    @Override
+    public void setResult(Object result) {}
 }

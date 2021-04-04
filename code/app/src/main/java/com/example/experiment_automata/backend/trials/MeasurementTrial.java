@@ -13,26 +13,24 @@ import java.util.UUID;
  *      1. None
  */
 
-public class MeasurementTrial extends Trial {
-
-    private float result;
-
+public class MeasurementTrial extends Trial<Float> {
     public MeasurementTrial(UUID collector, float result) {
-        super(collector);
+        super(collector, result);
         this.result = result;
     }
 
     public MeasurementTrial(UUID collector, Location location, float result) {
-        super(collector, location);
+        super(collector, location, result);
         this.result = result;
     }
 
     /**
-     *  gets the result of a single measurement trial that was taken.
-     * @return
-     *  The single trial result.
+     * get the the type of the current trial
+     *
+     * @return the type of the current trial
      */
-    public float getResult() {
-        return result;
+    @Override
+    public String getType() {
+        return "Measurement";
     }
 }

@@ -8,6 +8,7 @@ import com.github.mikephil.charting.data.Entry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,12 +74,26 @@ public class MeasurementExperiment extends Experiment {
      * @param trial
      *  the trail to add
      */
-    public void recordTrial(MeasurementTrial trial) {
+    public void recordTrial(Trial trial) {
         if (active) {
-            results.add(trial);
+            results.add((MeasurementTrial) trial);
+            postExperimentToFirestore();
         } else {
             throw new IllegalStateException("Experiment is not accepting new results.");
         }
+    }
+
+    public void recordTrial(Trial trial, Boolean fromFirestore) {
+        if (fromFirestore) results.add((MeasurementTrial) trial);
+    }
+    /**
+     * gets all the recorded trials for an experiment
+     *
+     * @return the recorded trials
+     */
+    @Override
+    public ArrayList<Trial> getRecordedTrials() {
+        return new ArrayList<>(results);
     }
 
     /**
@@ -270,7 +285,28 @@ public class MeasurementExperiment extends Experiment {
         }
         return quartiles;
     }
-
+    /**
+     * Build hashmap for results
+     */
+    public HashMap<String,Object> buildResultsmap(){
+        HashMap<String,Object> resultsData = new HashMap<String, Object>();
+        if (results == null){
+            return resultsData;
+        }
+        for(Trial trial : results){
+            HashMap<String,Object> singleResult = new HashMap<String, Object>();
+            singleResult.put("owner-id",trial.getUserId().toString());
+            if (trial.getLocation() != null){//maybe move to a method in superclass
+                singleResult.put("latitude",trial.getLocation().getLatitude());
+                singleResult.put("longitude",trial.getLocation().getLongitude());
+            }
+            singleResult.put("date",trial.getDate().toString());
+            singleResult.put("ignore",trial.isIgnored());
+            singleResult.put("result",trial.getResult());
+            resultsData.put(trial.getTrialId().toString(),singleResult);
+        }
+        return resultsData;
+    }
     /**
      * Gets the size of the experiment
      * @return size of the experiment
@@ -285,9 +321,29 @@ public class MeasurementExperiment extends Experiment {
         return size;
     }
 
+    public Collection<MeasurementTrial> getResults() {
+        return results;
+    }
+
     /**
      * get the trials made about this experiment
      * @return the trials
      */
     public Collection<MeasurementTrial> getTrials() { return results; }
+
+    /**
+     * Compares experiments to give them some sort of order in this
+     * case it is a lexicographical order.
+     * @param o the other experiment
+     * @return a negative integer, zero, or a positive integer as this object
+     * is less than, equal to, or greater than the specified object.
+     * @throws NullPointerException if the specified object is null
+     * @throws ClassCastException   if the specified object's type prevents it
+     *                              from being compared to this object.
+     */
+    @Override
+    public int compareTo(Object o) {
+        Experiment ec = (Experiment)o;
+        return super.getDescription().toLowerCase().compareTo(ec.getDescription().toLowerCase());
+    }
 }
