@@ -10,8 +10,8 @@ android:
   components:
   - tools
   - build-tools-30.0.3
-  - build-tools-24.0.1
-  - build-tools-22.0.1
+  # - build-tools-24.0.1
+  # - build-tools-22.0.1
   - tools
   - "$ANDROID_TARGET"
   - "$EMU_API_LEVEL"
