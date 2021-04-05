@@ -9,10 +9,6 @@ env:
   - ANDROID_ABI=armeabi-v7a
 android:
   components:
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> ccb9c33f154e7459117f1b08e9df6b7ee489c8b7
   - build-tools-26.0.1
   - build-tools-24.0.1
   - build-tools-30.0.3
@@ -28,9 +24,9 @@ licenses:
 - 'google-gdk-license-.+'
 - 'android-sdk-preview-license-.+'
 
-branches:
-  only:
-    - test
+# branches:
+#   only:
+#     - test
 
 before_install:
 - cd code
@@ -47,31 +43,9 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_f761570c4ae9_key -iv $encrypted_f761570c4ae9_iv
   -in google-services.json.enc -out google-services.json -d
 - cd ../
-<<<<<<< HEAD
-- emulator -avd test &
-- android-wait-for-emulator
-- sleep 300
-- adb shell input keyevent 82 &
-script:
-- ./gradlew build connectedCheck --stacktrace
-=======
-   - tools
-   - platform-tools
-   - build-tools-30.0.3
-   - android-30
-
-   licenses:
-
-before_install:
-- chmod +x gradlew
-- yes | sdkmanager "platforms:android-30"
-
-before_script:>>>>>>> attempt 3
-=======
 - emulator -avd test -no-window &
 - android-wait-for-emulator
 - adb shell input keyevent 82 &
 
 script:
 - ./gradlew build connectedCheck --stacktrace
->>>>>>> ccb9c33f154e7459117f1b08e9df6b7ee489c8b7
