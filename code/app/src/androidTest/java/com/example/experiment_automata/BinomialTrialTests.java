@@ -80,17 +80,6 @@ public class BinomialTrialTests {
                 currentTestingActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
             }
         });
-<<<<<<< HEAD
-
-        getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                currentTestingActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-            }
-        });
-=======
->>>>>>> ccb9c33f154e7459117f1b08e9df6b7ee489c8b7
-
     }
 
     private void makeExperiment(String des) {
