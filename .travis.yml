@@ -31,7 +31,7 @@ branches:
 before_install:
 - cd code
 - chmod +x gradlew
-- yes | sdkmanager "platforms;android-26"
+- yes | sdkmanager "platforms;android-30"
 - export GRADLE_HOME=$PWD/gradle-5.3
 - export PATH=$GRADLE_HOME/bin:$PATH
 # - gradle -v
