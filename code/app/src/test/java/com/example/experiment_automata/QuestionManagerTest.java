@@ -42,8 +42,8 @@ public class QuestionManagerTest {
         q1 = new Question("Q1", userId1, experimentId1);
         q2 = new Question("Q2", userId1, experimentId1);
         q3 = new Question("Q3", userId2, experimentId2);
-        r1 = new Reply("R1", userId2);
-        r3 = new Reply("R3", userId1);
+//        r1 = new Reply("R1", userId2);
+//        r3 = new Reply("R3", userId1);
         questions.add(q1);
         questions.add(q2);
         questions.add(q3);
