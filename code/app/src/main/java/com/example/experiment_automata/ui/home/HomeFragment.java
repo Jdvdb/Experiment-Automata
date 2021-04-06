@@ -35,8 +35,8 @@ import java.util.UUID;
  */
 
 public class HomeFragment extends Fragment {
-    private ArrayList<Experiment> experimentsArrayList;
-    private ArrayAdapter<Experiment> experimentArrayAdapter;
+    private ArrayList<Experiment<?>> experimentsArrayList;
+    private ArrayAdapter<Experiment<?>> experimentArrayAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment {
         experimentsArrayList = new ArrayList<>();
         populateList();
         experimentArrayAdapter = new ExperimentListAdapter(getActivity(),
-                experimentsArrayList, getArguments().getString("mode"));
+                experimentsArrayList, getArguments().getString("mode"), ((NavigationActivity) getActivity()).userManager);
         experimentList.setAdapter(experimentArrayAdapter);
 
         Bundle bundle = new Bundle();
@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
             bundle.putString(NavExperimentDetailsFragment.CURRENT_EXPERIMENT_ID, experimentID);
 
             // set current experiment
-            Experiment experiment = parentActivity.experimentManager.query(UUID.fromString(experimentID));
+            Experiment<?> experiment = parentActivity.experimentManager.query(UUID.fromString(experimentID));
             parentActivity.experimentManager.setCurrentExperiment(experiment);
 
             //nav_experiment_details
@@ -90,6 +90,7 @@ public class HomeFragment extends Fragment {
                         .queryExperiments(parentActivity.loggedUser.getOwnedExperiments()));
                 break;
             case "published":
+                ((NavigationActivity)getActivity()).userManager.getAllUsersFromFireStore();
                 experimentsArrayList.addAll(parentActivity.experimentManager
                         .getPublishedExperiments());
                 break;
