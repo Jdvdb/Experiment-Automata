@@ -24,10 +24,6 @@ licenses:
 - 'google-gdk-license-.+'
 - 'android-sdk-preview-license-.+'
 
-# branches:
-#   only:
-#     - test
-
 before_install:
 - cd code
 - chmod +x gradlew
