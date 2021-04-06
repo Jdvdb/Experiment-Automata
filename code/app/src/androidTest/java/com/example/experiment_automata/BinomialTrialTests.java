@@ -12,17 +12,19 @@ package com.example.experiment_automata;
  */
 
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.experiment_automata.backend.DataBase;
 import com.example.experiment_automata.backend.experiments.Experiment;
 import com.example.experiment_automata.backend.experiments.ExperimentMaker;
 import com.example.experiment_automata.backend.experiments.ExperimentType;
 import com.example.experiment_automata.backend.trials.Trial;
 import com.example.experiment_automata.ui.NavigationActivity;
+import com.google.firebase.FirebaseApp;
 import com.robotium.solo.Solo;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,15 +32,16 @@ import org.junit.Test;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import java.lang.reflect.Field;
 import java.util.UUID;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class BinomialTrialTests {
+    DataBase dataBase = DataBase.getInstanceTesting();;
     private Solo solo;
     private NavigationActivity currentTestingActivity;
 
@@ -62,7 +65,9 @@ public class BinomialTrialTests {
 
     @Before
     public void setup() {
-        solo = new Solo(getInstrumentation(), rule.getActivity());
+
+
+        solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
         currentTestingActivity = (NavigationActivity) solo.getCurrentActivity();
         //Finding the buttons we need to press
         addExperimentButton = currentTestingActivity.findViewById(R.id.fab_button);
@@ -73,16 +78,42 @@ public class BinomialTrialTests {
                 true,
                 true,
                 testUUID);
-        solo.unlockScreen();
-        getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                currentTestingActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-            }
-        });
+
+        /**
+         * Sources
+         * Author:https://stackoverflow.com/users/7699270/nur-el-din
+         * Editor:https://stackoverflow.com/users/6463791/satan-pandeya
+         * Full:https://stackoverflow.com/questions/15993314/clicking-on-action-bar-menu-items-in-robotium
+         */
+        FirebaseApp.initializeApp(InstrumentationRegistry.getInstrumentation().getTargetContext());
     }
 
+    @After
+    public void endTest() throws NoSuchFieldException, IllegalAccessException {
+        dataBase.getFireStore().disableNetwork();
+        dataBase.getFireStore().terminate();
+        dataBase.getFireStore().clearPersistence();
+        solo.finishOpenedActivities();
+        Field testMode = DataBase.class.getDeclaredField("testMode");
+        Field currentInstence = DataBase.class.getDeclaredField("current");
+        Field dbInstence = DataBase.class.getDeclaredField("db");
+        testMode.setAccessible(true);
+        currentInstence.setAccessible(true);
+        dbInstence.setAccessible(true);
+        testMode.setBoolean(dataBase, true);
+        currentInstence.set(currentInstence, null);
+        dbInstence.set(dbInstence, null);
+        dataBase = DataBase.getInstanceTesting();
+    }
+
+
     private void makeExperiment(String des) {
+
+        solo.clickOnActionBarHomeButton();
+        solo.clickOnText("My Experiments");
+        solo.sleep(2000);
+        addExperimentButton = solo.getView(R.id.fab_button);
+
         //Click from the home screen the + button to make an experiment
         solo.clickOnView(addExperimentButton);
         solo.waitForDialogToOpen();
@@ -115,13 +146,16 @@ public class BinomialTrialTests {
     }
 
     private void addBinomialTrial(boolean click) {
-        solo.clickOnView(addExperimentButton);
+        solo.sleep(2000);
+        solo.clickOnView(solo.getView(R.id.fab_button));
+        solo.sleep(2000);
         if(click) {
             solo.waitForText("Passed");
             solo.clickOnText("Passed");
         }
-        addExperimentButton = currentTestingActivity.findViewById(R.id.fab_button);
-        solo.clickOnView(addExperimentButton);
+        solo.sleep(2000);
+        solo.clickOnView(solo.getView(R.id.fab_button));
+        solo.sleep(2000);
     }
 
 
@@ -131,11 +165,18 @@ public class BinomialTrialTests {
      */
     @Test
     public void testIntentIgnoringTrials() {
+
+        //Running without the DB
+        //currentTestingActivity.experimentManager.enableTestMode();
+        //currentTestingActivity.questionManager.enableTestMode();
+        //currentTestingActivity.userManager.enableTestMode();
+        //currentTestingActivity.stopRemindingMe = true;
+
         String testDes = "Testing Intent";
         makeExperiment(testDes);
         solo.clickOnText(testDes);
         // Adding 3 trial
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             addBinomialTrial(i % 2 == 0);
         }
         View qur = solo.getView(R.id.quartiles_text);
@@ -145,6 +186,7 @@ public class BinomialTrialTests {
         String qur3 = ((TextView)qur2).getText().toString();
 
         assertNotEquals("Mean is the same when it should not be", qur1, qur3);
+
     }
 
     /**
@@ -153,6 +195,13 @@ public class BinomialTrialTests {
      */
     @Test
     public void testIntentIQRNumbersAppear() {
+
+        //Running without the DB
+        //currentTestingActivity.experimentManager.enableTestMode();
+        //currentTestingActivity.questionManager.enableTestMode();
+        //currentTestingActivity.userManager.enableTestMode();
+        //currentTestingActivity.stopRemindingMe = true;
+
         Double medianTestValue = 1.000;
         Double meanTestValue = 1.000;
         String testDes = "Testing Intent";
@@ -175,14 +224,15 @@ public class BinomialTrialTests {
      * Testing US 01.06.01 check to see if the title shows as we cannot
      * really compare graphs without overcomplicated results
      */
-//    @Test
-//    public void testIntentChartHistogramDataDisplayed() {
-//        String testDes = "Testing Intent";
-//        makeExperiment(testDes);
-//        solo.clickOnText(testDes);
-//        addBinomialTrial(true);
-//        assertTrue("Chart data not displayed", solo.searchText("Histogram"));
-//    }
+    @Test
+    public void testIntentChartHistogramDataDisplayed() {
+
+        String testDes = "Testing Intent";
+        makeExperiment(testDes);
+        solo.clickOnText(testDes);
+        addBinomialTrial(true);
+        assertTrue("Chart data not displayed", solo.searchText("Histogram"));
+    }
 
     /**
      * Testing US 01.07.01 check to see if the title shows as we cannot
@@ -190,6 +240,7 @@ public class BinomialTrialTests {
      */
     @Test
     public void testIntentChartPlotDataDisplayed() {
+
         String testDes = "Testing Intent";
         makeExperiment(testDes);
         solo.clickOnText(testDes);
