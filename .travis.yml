@@ -45,6 +45,7 @@ before_install:
 - cd ../
 - emulator -avd test -no-window &
 - android-wait-for-emulator
+- sleep 300
 - adb shell input keyevent 82 &
 
 script:
